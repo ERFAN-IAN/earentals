@@ -19,7 +19,7 @@ export const fetchUserProperties = () => {
   return {
     queryKey: ["userproperty"],
     queryFn: async () => {
-      const response = await fetch(`/api/userproperties`);
+      const response = await fetch(`${NEXT_PUBLIC_API_DOMAIN}/userproperties`);
       const jj = await response.json();
       return jj;
     },
@@ -32,7 +32,7 @@ export const fetchSingleProperty = (id) => {
     queryFn: async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_DOMAIN}/properties/${id}`
+          `${NEXT_PUBLIC_API_DOMAIN}/properties/${id}`
         );
         const rj = await response.json();
         return rj;
@@ -47,7 +47,7 @@ export const fetchSingleProperty = (id) => {
 export const deleteSingleProperty = (id) => {
   return {
     mutationFn: async () => {
-      await fetch(`/api/properties/${id}`, {
+      await fetch(`${NEXT_PUBLIC_API_DOMAIN}/properties/${id}`, {
         method: "delete",
       });
     },

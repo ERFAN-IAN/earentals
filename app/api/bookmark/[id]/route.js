@@ -6,8 +6,8 @@ export const GET = async (request, { params }) => {
     await connectDB();
     const sessionUser = await getSessionUser();
     if (!sessionUser || !sessionUser.userID) {
-      return Response(JSON.stringify({ message: "permission denied" }), {
-        status: 401,
+      return new Response(JSON.stringify({ message: "please login" }), {
+        status: 202,
       });
     }
     const user = await User.find({ _id: sessionUser.userID });
@@ -26,8 +26,11 @@ export const GET = async (request, { params }) => {
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ message: "something went wrong" }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ message: "something went wrong", error: error }),
+      {
+        status: 500,
+      }
+    );
   }
 };
