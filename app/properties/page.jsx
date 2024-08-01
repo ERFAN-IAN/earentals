@@ -1,6 +1,5 @@
 import PropertiesGrid from "@/components/PropertiesGrid";
 import SearchBox from "@/components/SearchBox";
-export const dynamic = "force-dynamic";
 const Page = async () => {
   return (
     <div>

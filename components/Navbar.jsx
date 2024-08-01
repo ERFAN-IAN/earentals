@@ -8,56 +8,21 @@ import Image from "next/image";
 import profile from "@/assets/images/profile.png";
 import { usePathname } from "next/navigation";
 import NavLink from "./NavLink";
-import { BiMoon } from "react-icons/bi";
-import { BiSun } from "react-icons/bi";
 import { useSession, signIn, signOut, getProviders } from "next-auth/react";
-import { getCookie, setCookie } from "cookies-next";
+import ThemeSwitch from "./ThemeSwitch";
 
 const Navbar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [providers, setProviders] = useState(false);
-  const [theme, setTheme] = useState(getCookie("theme"));
+  const [theme, setTheme] = useState("dark");
   useEffect(() => {
-    const dafaultThemeFunction = () => {
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches &&
-        getCookie("theme") !== "light" &&
-        getCookie("theme") !== "dark"
-      ) {
-        handleTheme("dark");
-        return;
-      } else if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: light)").matches &&
-        getCookie("theme") !== "light" &&
-        getCookie("theme") !== "dark"
-      ) {
-        handleTheme("light");
-        return;
-      }
-      handleTheme(getCookie("theme"));
-    };
-    dafaultThemeFunction();
     const letsGetProviders = async () => {
       const fetchedProviders = await getProviders();
       setProviders(fetchedProviders);
     };
     letsGetProviders();
   }, []);
-  function handleTheme(requestedTheme) {
-    if (requestedTheme === "dark") {
-      document.querySelector("html").setAttribute("data-theme", "dark");
-      setCookie("theme", "dark");
-      setTheme("dark");
-    }
-    if (requestedTheme === "light") {
-      document.querySelector("html").setAttribute("data-theme", "light");
-      setCookie("theme", "light");
-      setTheme("light");
-    }
-  }
 
   return (
     <div className="navbar grid grid-cols-3 md:grid-cols-4 py-6 px-0 layoutclamp">
@@ -217,20 +182,7 @@ const Navbar = () => {
                         }
                       }}
                     />
-                    <BiMoon
-                      className={`${
-                        getCookie("theme") === "dark"
-                          ? `opacity-100`
-                          : `opacity-0`
-                      } fill-current w-6 h-6 duration-100`}
-                    />
-                    <BiSun
-                      className={`${
-                        getCookie("theme") === "light"
-                          ? `opacity-100`
-                          : `opacity-0`
-                      } fill-current w-6 h-6 duration-100`}
-                    />
+                    <ThemeSwitch />
                     Theme
                   </label>
                 </li>
@@ -242,33 +194,7 @@ const Navbar = () => {
             <li className="flex justify-start flex-row mr-2">
               {providers && (
                 <label className="swap swap-rotate">
-                  <input
-                    type="checkbox"
-                    className="theme-controller"
-                    value="synthwave"
-                    onClick={() => {
-                      if (theme === "dark") {
-                        const newTheme = "light";
-                        handleTheme(newTheme);
-                      } else {
-                        handleTheme("dark");
-                      }
-                    }}
-                  />
-                  <BiMoon
-                    className={`${
-                      getCookie("theme") === "dark"
-                        ? `opacity-100`
-                        : `opacity-0`
-                    } fill-current w-6 h-6 duration-100`}
-                  />
-                  <BiSun
-                    className={`${
-                      getCookie("theme") === "light"
-                        ? `opacity-100`
-                        : `opacity-0`
-                    } fill-current w-6 h-6 duration-100`}
-                  />
+                  <ThemeSwitch />
                 </label>
               )}
             </li>
