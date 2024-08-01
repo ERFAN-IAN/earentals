@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
-export default function ThemeSwitch() {
+export default function ThemeSwitch({ place }) {
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
 
@@ -25,10 +25,26 @@ export default function ThemeSwitch() {
     );
 
   if (resolvedTheme === "dark") {
-    return <FiSun onClick={() => setTheme("light")} />;
+    return (
+      <div
+        onClick={() => setTheme("light")}
+        className="w-full flex gapx-2 items-center"
+      >
+        <FiSun />
+        <p className={`${place === "nav" && `hidden`}`}>Theme</p>
+      </div>
+    );
   }
 
   if (resolvedTheme === "light") {
-    return <FiMoon onClick={() => setTheme("dark")} />;
+    return (
+      <div
+        onClick={() => setTheme("dark")}
+        className="w-full flex gapx-2 items-center"
+      >
+        <FiMoon />
+        <p className={`${place === "nav" && `hidden`}`}>Theme</p>
+      </div>
+    );
   }
 }

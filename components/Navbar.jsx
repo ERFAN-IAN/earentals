@@ -168,23 +168,7 @@ const Navbar = () => {
                   </li>
                 )}
                 <li className="flex justify-start flex-row mr-2">
-                  <label className="swap swap-rotate ">
-                    <input
-                      type="checkbox"
-                      className="theme-controller"
-                      value="synthwave"
-                      onClick={() => {
-                        if (theme === "dark") {
-                          const newTheme = "light";
-                          handleTheme(newTheme);
-                        } else {
-                          handleTheme("dark");
-                        }
-                      }}
-                    />
-                    <ThemeSwitch />
-                    Theme
-                  </label>
+                  <ThemeSwitch />
                 </li>
               </ul>
             </div>
@@ -194,7 +178,7 @@ const Navbar = () => {
             <li className="flex justify-start flex-row mr-2">
               {providers && (
                 <label className="swap swap-rotate">
-                  <ThemeSwitch />
+                  <ThemeSwitch place={"nav"} />
                 </label>
               )}
             </li>
